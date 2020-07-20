@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="zh"><head>
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Vnigo</title>
+<meta property="og:title" content="Welcome to GitHub Pages">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="http://vnigo.com/">
+<meta property="og:url" content="http://vnigo.com/">
+<meta property="og:site_name" content="vnigo.github.io">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+  </head>
+  <body id="applet">
+<template>
+
+    <section>
+    </section>
+
+    <section>
+      <footer>
+      </footer>
+    </section>
+
+</template>
+
+<!--依赖-->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/storejs/dist/store.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+<script>
+    new Vue({
+        el: '#applet',
+        data: function() {
+            return {
+                visible: false,
+                info:null,
+            }
+        },
+        mounted() {
+            // 接受父页面发来的信息
+            window.addEventListener("message", this.denoApi)
+            this.getAppInfo()
+        },
+        methods:{
+            // 接收父参数
+            denoApi (event) {
+                let that = this
+                let data = event.data;
+                switch (data.api) {
+                    case 'appDeno::info':
+                        that.info = data.params
+                    break
+                }
+            },
+            // 获取应用信息
+            getAppInfo() {
+                window.parent.postMessage({
+                    api: 'appDeno::getInfo',
+                    params: {}
+                },'*');
+            },
+        }
+    })
+</script>
+
+</body>
+</html>
+
